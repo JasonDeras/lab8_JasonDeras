@@ -8,8 +8,6 @@ public class HackeoR extends Hackeo {
         super(codigo, n_riesgo, tipo);
     }
 
-    
-
     public int getHackeoE() {
         return hackeoE;
     }
