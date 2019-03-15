@@ -1,9 +1,12 @@
 package lab8;
 
 import java.io.BufferedReader;
+import java.io.EOFException;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.filechooser.*;
@@ -27,7 +30,6 @@ public class Principal extends javax.swing.JFrame {
         tf_C_HR = new javax.swing.JTextField();
         cb_NR_HR = new javax.swing.JComboBox<>();
         bt_Guarda = new javax.swing.JButton();
-        bt_Cargar_HR = new javax.swing.JButton();
         jd_Crear_HS = new javax.swing.JDialog();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -35,7 +37,6 @@ public class Principal extends javax.swing.JFrame {
         tf_Codigo1 = new javax.swing.JTextField();
         cb_NR_HS = new javax.swing.JComboBox<>();
         bt_Guardar1 = new javax.swing.JButton();
-        bt_Cargar1 = new javax.swing.JButton();
         jd_Simulacion = new javax.swing.JDialog();
         jLabel3 = new javax.swing.JLabel();
         jbr_Progreso = new javax.swing.JProgressBar();
@@ -54,8 +55,9 @@ public class Principal extends javax.swing.JFrame {
         jScrollPane4 = new javax.swing.JScrollPane();
         JL_Hacks1 = new javax.swing.JList<>();
         jLabel5 = new javax.swing.JLabel();
-        bt_Modificar = new javax.swing.JButton();
         bt_Eliminar = new javax.swing.JButton();
+        bt_Cargar = new javax.swing.JButton();
+        bt_Cargar1 = new javax.swing.JButton();
         bt_C_HS = new javax.swing.JButton();
         bt_C_HR = new javax.swing.JButton();
         bt_Simulacion = new javax.swing.JButton();
@@ -87,13 +89,6 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
-        bt_Cargar_HR.setText("Cargar");
-        bt_Cargar_HR.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_Cargar_HRActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jd_Crear_HRLayout = new javax.swing.GroupLayout(jd_Crear_HR.getContentPane());
         jd_Crear_HR.getContentPane().setLayout(jd_Crear_HRLayout);
         jd_Crear_HRLayout.setHorizontalGroup(
@@ -113,10 +108,8 @@ public class Principal extends javax.swing.JFrame {
                         .addGap(41, 41, 41)
                         .addComponent(bt_Crear)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(bt_Guarda)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(bt_Cargar_HR)))
-                .addContainerGap(42, Short.MAX_VALUE))
+                        .addComponent(bt_Guarda)))
+                .addContainerGap(125, Short.MAX_VALUE))
         );
         jd_Crear_HRLayout.setVerticalGroup(
             jd_Crear_HRLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -132,8 +125,7 @@ public class Principal extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jd_Crear_HRLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bt_Crear)
-                    .addComponent(bt_Guarda)
-                    .addComponent(bt_Cargar_HR))
+                    .addComponent(bt_Guarda))
                 .addGap(73, 73, 73))
         );
 
@@ -162,13 +154,6 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
-        bt_Cargar1.setText("Cargar");
-        bt_Cargar1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                bt_Cargar1ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jd_Crear_HSLayout = new javax.swing.GroupLayout(jd_Crear_HS.getContentPane());
         jd_Crear_HS.getContentPane().setLayout(jd_Crear_HSLayout);
         jd_Crear_HSLayout.setHorizontalGroup(
@@ -188,10 +173,8 @@ public class Principal extends javax.swing.JFrame {
                     .addGroup(jd_Crear_HSLayout.createSequentialGroup()
                         .addComponent(bt_Guardar1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(bt_Crear1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(bt_Cargar1)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(bt_Crear1)))
+                .addContainerGap(90, Short.MAX_VALUE))
         );
         jd_Crear_HSLayout.setVerticalGroup(
             jd_Crear_HSLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -207,8 +190,7 @@ public class Principal extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
                 .addGroup(jd_Crear_HSLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bt_Crear1)
-                    .addComponent(bt_Guardar1)
-                    .addComponent(bt_Cargar1))
+                    .addComponent(bt_Guardar1))
                 .addContainerGap())
         );
 
@@ -306,9 +288,26 @@ public class Principal extends javax.swing.JFrame {
 
         jLabel5.setText("Hacks Creados");
 
-        bt_Modificar.setText("Modificar");
-
         bt_Eliminar.setText("Eliminar");
+        bt_Eliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_EliminarActionPerformed(evt);
+            }
+        });
+
+        bt_Cargar.setText("Cargar Hackeo Regular");
+        bt_Cargar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_CargarActionPerformed(evt);
+            }
+        });
+
+        bt_Cargar1.setText("Cargar Hackeo Super");
+        bt_Cargar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_Cargar1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jd_AdministarLayout = new javax.swing.GroupLayout(jd_Administar.getContentPane());
         jd_Administar.getContentPane().setLayout(jd_AdministarLayout);
@@ -321,24 +320,32 @@ public class Principal extends javax.swing.JFrame {
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 343, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jd_AdministarLayout.createSequentialGroup()
-                .addComponent(bt_Modificar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(bt_Eliminar)
+                .addGroup(jd_AdministarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jd_AdministarLayout.createSequentialGroup()
+                        .addGap(97, 97, 97)
+                        .addComponent(bt_Eliminar)
+                        .addGap(18, 18, 18)
+                        .addComponent(bt_Cargar))
+                    .addComponent(bt_Cargar1))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         jd_AdministarLayout.setVerticalGroup(
             jd_AdministarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jd_AdministarLayout.createSequentialGroup()
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(jd_AdministarLayout.createSequentialGroup()
-                .addGap(34, 34, 34)
-                .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 167, Short.MAX_VALUE)
-                .addGroup(jd_AdministarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(bt_Modificar)
-                    .addComponent(bt_Eliminar))
-                .addGap(89, 89, 89))
+                .addGroup(jd_AdministarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jd_AdministarLayout.createSequentialGroup()
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 141, Short.MAX_VALUE))
+                    .addGroup(jd_AdministarLayout.createSequentialGroup()
+                        .addGap(34, 34, 34)
+                        .addComponent(jLabel5)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jd_AdministarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(bt_Eliminar)
+                            .addComponent(bt_Cargar))
+                        .addGap(29, 29, 29)))
+                .addComponent(bt_Cargar1)
+                .addGap(35, 35, 35))
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -526,80 +533,12 @@ public class Principal extends javax.swing.JFrame {
         cb_NR_HR.setSelectedIndex(0);
     }//GEN-LAST:event_bt_GuardaActionPerformed
 
-    private void bt_Cargar_HRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_Cargar_HRActionPerformed
-        // TODO add your handling code here:
-        jd_Mostrar_HR.setModal(true);
-        jd_Mostrar_HR.pack();
-        jd_Mostrar_HR.setLocationRelativeTo(this);
-        File fichero = null;
-        FileReader fr = null;
-        BufferedReader br = null;
-        ta_Mostar_HR.setText("");
-        try {
-            JFileChooser jfc = new JFileChooser("./Hackeo Regular");
-            FileNameExtensionFilter filtro = new FileNameExtensionFilter("Archivo de texto", "txt");
-            jfc.setFileFilter(filtro);
-            int selec = jfc.showOpenDialog(this);
-            if (selec == JFileChooser.APPROVE_OPTION) {
-                fichero = jfc.getSelectedFile();
-                fr = new FileReader(fichero);
-                br = new BufferedReader(fr);
-                String linea;
-                ta_Mostar_HR.setText("");
-                while ((linea = br.readLine()) != null) {
-                    ta_Mostar_HR.append(linea);
-                    ta_Mostar_HR.append("\n");
-                }//Fin del while
-            }//Fin del if
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        try {
-            br.close();
-            fr.close();
-        } catch (IOException e) {
-        }
-        jd_Mostrar_HR.setVisible(true);
-    }//GEN-LAST:event_bt_Cargar_HRActionPerformed
-
-    private void bt_Cargar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_Cargar1ActionPerformed
-        // TODO add your handling code here:
-        jd_Crear_HS.setModal(true);
-        jd_Crear_HS.pack();
-        jd_Crear_HS.setLocationRelativeTo(this);
-        File fichero = null;
-        FileReader fr = null;
-        BufferedReader br = null;
-        ta_Cargar_HS.setText("");
-        try {
-            JFileChooser jfc = new JFileChooser("./Hackeo Super");
-            FileNameExtensionFilter filtro = new FileNameExtensionFilter("Archivo de texto", "txt");
-            jfc.setFileFilter(filtro);
-            int selec = jfc.showOpenDialog(this);
-            if (selec == JFileChooser.APPROVE_OPTION) {
-                fichero = jfc.getSelectedFile();
-                fr = new FileReader(fichero);
-                br = new BufferedReader(fr);
-                String linea;
-                ta_Cargar_HS.setText("");
-                while ((linea = br.readLine()) != null) {
-                    ta_Cargar_HS.append(linea);
-                    ta_Cargar_HS.append("\n");
-                }//Fin del while
-            }//Fin del if
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        try {
-            br.close();
-            fr.close();
-        } catch (IOException e) {
-        }
-        jd_Mostrar_HS.setVisible(true);
-    }//GEN-LAST:event_bt_Cargar1ActionPerformed
-
     private void bt_AdministarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_AdministarActionPerformed
         // TODO add your handling code here:
+        jd_Administar.setModal(true);
+        jd_Administar.pack();
+        jd_Administar.setLocationRelativeTo(this);
+        jd_Administar.setVisible(true);
     }//GEN-LAST:event_bt_AdministarActionPerformed
 
     private void bt_SimularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_SimularActionPerformed
@@ -646,6 +585,22 @@ public class Principal extends javax.swing.JFrame {
 
     }//GEN-LAST:event_bt_SimularActionPerformed
 
+    private void bt_CargarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_CargarActionPerformed
+        // TODO add your handling code here:
+        CargarAHS();
+    }//GEN-LAST:event_bt_CargarActionPerformed
+
+    private void bt_Cargar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_Cargar1ActionPerformed
+        // TODO add your handling code here:
+        CargarAHR();
+    }//GEN-LAST:event_bt_Cargar1ActionPerformed
+
+    private void bt_EliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_EliminarActionPerformed
+        // TODO add your handling code here:
+        JL_Hacks1.remove(JL_Hacks1.getSelectedIndex());
+        JL_Hacks.remove(JL_Hacks1.getSelectedIndex());
+    }//GEN-LAST:event_bt_EliminarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -687,14 +642,13 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton bt_Administar;
     private javax.swing.JButton bt_C_HR;
     private javax.swing.JButton bt_C_HS;
+    private javax.swing.JButton bt_Cargar;
     private javax.swing.JButton bt_Cargar1;
-    private javax.swing.JButton bt_Cargar_HR;
     private javax.swing.JButton bt_Crear;
     private javax.swing.JButton bt_Crear1;
     private javax.swing.JButton bt_Eliminar;
     private javax.swing.JButton bt_Guarda;
     private javax.swing.JButton bt_Guardar1;
-    private javax.swing.JButton bt_Modificar;
     private javax.swing.JButton bt_Simulacion;
     private javax.swing.JButton bt_Simular;
     private javax.swing.JComboBox<String> cb_NR_HR;
@@ -729,4 +683,60 @@ public class Principal extends javax.swing.JFrame {
     private int riesgo;
     private int riesgo2;
     adminbarra ab;
+
+    public void CargarAHS() {
+        ArrayList<Hackeo> listaHackeo = new ArrayList();
+        File archivo = null;
+        DefaultListModel modelo = (DefaultListModel) JL_Hacks1.getModel();
+        try {
+            listaHackeo = new ArrayList();
+            Hackeo temp;
+            if (archivo.exists()) {
+                FileInputStream entrada
+                        = new FileInputStream("./Hackeo Super");
+                ObjectInputStream objeto
+                        = new ObjectInputStream(entrada);
+                try {
+                    while ((temp = (Hackeo) objeto.readObject()) != null) {
+                        listaHackeo.add(temp);
+                        modelo.addElement(temp);
+                    }
+                } catch (EOFException e) {
+                    //encontro el final del archivo
+                }
+                objeto.close();
+                entrada.close();
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public void CargarAHR() {
+        ArrayList<Hackeo> listaHackeo = new ArrayList();
+        File archivo = null;
+        DefaultListModel modelo = (DefaultListModel) JL_Hacks1.getModel();
+        try {
+            listaHackeo = new ArrayList();
+            Hackeo temp;
+            if (archivo.exists()) {
+                FileInputStream entrada
+                        = new FileInputStream("./Hackeo Regular");
+                ObjectInputStream objeto
+                        = new ObjectInputStream(entrada);
+                try {
+                    while ((temp = (Hackeo) objeto.readObject()) != null) {
+                        listaHackeo.add(temp);
+                        modelo.addElement(temp);
+                    }
+                } catch (EOFException e) {
+                    //encontro el final del archivo
+                }
+                objeto.close();
+                entrada.close();
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
 }
