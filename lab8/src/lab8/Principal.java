@@ -50,6 +50,12 @@ public class Principal extends javax.swing.JFrame {
         jd_Mostrar_HS = new javax.swing.JDialog();
         jScrollPane2 = new javax.swing.JScrollPane();
         ta_Cargar_HS = new javax.swing.JTextArea();
+        jd_Administar = new javax.swing.JDialog();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        JL_Hacks1 = new javax.swing.JList<>();
+        jLabel5 = new javax.swing.JLabel();
+        bt_Modificar = new javax.swing.JButton();
+        bt_Eliminar = new javax.swing.JButton();
         bt_C_HS = new javax.swing.JButton();
         bt_C_HR = new javax.swing.JButton();
         bt_Simulacion = new javax.swing.JButton();
@@ -294,6 +300,45 @@ public class Principal extends javax.swing.JFrame {
             .addGroup(jd_Mostrar_HSLayout.createSequentialGroup()
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 287, Short.MAX_VALUE)
                 .addContainerGap())
+        );
+
+        jScrollPane4.setViewportView(JL_Hacks1);
+
+        jLabel5.setText("Hacks Creados");
+
+        bt_Modificar.setText("Modificar");
+
+        bt_Eliminar.setText("Eliminar");
+
+        javax.swing.GroupLayout jd_AdministarLayout = new javax.swing.GroupLayout(jd_Administar.getContentPane());
+        jd_Administar.getContentPane().setLayout(jd_AdministarLayout);
+        jd_AdministarLayout.setHorizontalGroup(
+            jd_AdministarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jd_AdministarLayout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addComponent(jLabel5)
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 343, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jd_AdministarLayout.createSequentialGroup()
+                .addComponent(bt_Modificar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(bt_Eliminar)
+                .addGap(0, 0, Short.MAX_VALUE))
+        );
+        jd_AdministarLayout.setVerticalGroup(
+            jd_AdministarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jd_AdministarLayout.createSequentialGroup()
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(jd_AdministarLayout.createSequentialGroup()
+                .addGap(34, 34, 34)
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 167, Short.MAX_VALUE)
+                .addGroup(jd_AdministarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(bt_Modificar)
+                    .addComponent(bt_Eliminar))
+                .addGap(89, 89, 89))
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -561,27 +606,44 @@ public class Principal extends javax.swing.JFrame {
         // TODO add your handling code here:
         int pos = JL_Hacks.getSelectedIndex();
         String temp = tf_Caracteres_Prueba.getText();
+        int n1 = ((HackeoR) hacks.get(pos)).getN_riesgo(), n2 = ((HackeoS) hacks.get(pos)).getN_riesgo();
         int car = temp.length();
         DefaultListModel modelo = (DefaultListModel) JL_Hacks.getModel();
-        Hackeo h1 = hacks.get(pos);
         int r1 = 0;
+        int r2 = 0;
         if (hacks.get(pos) instanceof HackeoR) {
             r1 = 1 + r.nextInt(10);
         }
         if (hacks.get(pos) instanceof HackeoS) {
-            r1 = 6 + r.nextInt(10);
+            r2 = 6 + r.nextInt(10);
         }
-        int vi = h1.getN_riesgo();
         int dur = 0;
-        if (h1 instanceof HackeoR) {
-            dur = 2;
-        }
-        if (h1 instanceof HackeoS) {
-            dur = 1;
-        }
+        int exi = 0;
+        int fal = 0;
+        jbr_Progreso.setValue(0);
         jbr_Progreso.setMaximum(dur * car);
         adminbarra ab = new adminbarra(jbr_Progreso, dur, car);
-        ab.start();
+        if (h instanceof HackeoR) {
+            dur = 2;
+            if (n1 == r1) {
+                JOptionPane.showMessageDialog(this, "Hackeo fallo");
+                ab.stop();
+            } else {
+                exi++;
+                ((HackeoR) h).setHackeoE(exi);
+                ab.start();
+            }
+        }
+        if (h instanceof HackeoS) {
+            dur = 1;
+            if (n2 == r2) {
+                fal++;
+                ((HackeoS) h).setHackeoF(fal);
+            } else {
+                ab.start();
+            }
+        }
+
     }//GEN-LAST:event_bt_SimularActionPerformed
 
     /**
@@ -621,6 +683,7 @@ public class Principal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JList<String> JL_Hacks;
+    private javax.swing.JList<String> JL_Hacks1;
     private javax.swing.JButton bt_Administar;
     private javax.swing.JButton bt_C_HR;
     private javax.swing.JButton bt_C_HS;
@@ -628,8 +691,10 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton bt_Cargar_HR;
     private javax.swing.JButton bt_Crear;
     private javax.swing.JButton bt_Crear1;
+    private javax.swing.JButton bt_Eliminar;
     private javax.swing.JButton bt_Guarda;
     private javax.swing.JButton bt_Guardar1;
+    private javax.swing.JButton bt_Modificar;
     private javax.swing.JButton bt_Simulacion;
     private javax.swing.JButton bt_Simular;
     private javax.swing.JComboBox<String> cb_NR_HR;
@@ -638,10 +703,13 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JProgressBar jbr_Progreso;
+    private javax.swing.JDialog jd_Administar;
     private javax.swing.JDialog jd_Crear_HR;
     private javax.swing.JDialog jd_Crear_HS;
     private javax.swing.JDialog jd_Mostrar_HR;
