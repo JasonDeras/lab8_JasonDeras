@@ -5,15 +5,12 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.*;
+import javax.swing.filechooser.*;
 
 public class Principal extends javax.swing.JFrame {
 
-    static Random r1 = new Random();
-    static Random r2 = new Random();
+    static Random r = new Random();
 
     public Principal() {
         initComponents();
@@ -41,9 +38,12 @@ public class Principal extends javax.swing.JFrame {
         bt_Cargar1 = new javax.swing.JButton();
         jd_Simulacion = new javax.swing.JDialog();
         jLabel3 = new javax.swing.JLabel();
-        cb_Hacks = new javax.swing.JComboBox<>();
         jbr_Progreso = new javax.swing.JProgressBar();
         bt_Simular = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        tf_Caracteres_Prueba = new javax.swing.JTextField();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        JL_Hacks = new javax.swing.JList<>();
         jd_Mostrar_HR = new javax.swing.JDialog();
         jScrollPane1 = new javax.swing.JScrollPane();
         ta_Mostar_HR = new javax.swing.JTextArea();
@@ -54,6 +54,7 @@ public class Principal extends javax.swing.JFrame {
         bt_C_HR = new javax.swing.JButton();
         bt_Simulacion = new javax.swing.JButton();
         jl_Menu = new javax.swing.JLabel();
+        bt_Administar = new javax.swing.JButton();
 
         jl_Riesgo.setText("Nivel de Riesgo ");
 
@@ -208,36 +209,53 @@ public class Principal extends javax.swing.JFrame {
         jLabel3.setText("Hacks Creados");
 
         bt_Simular.setText("Simular");
+        bt_Simular.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_SimularActionPerformed(evt);
+            }
+        });
+
+        jLabel4.setText("Caracteres");
+
+        jScrollPane3.setViewportView(JL_Hacks);
 
         javax.swing.GroupLayout jd_SimulacionLayout = new javax.swing.GroupLayout(jd_Simulacion.getContentPane());
         jd_Simulacion.getContentPane().setLayout(jd_SimulacionLayout);
         jd_SimulacionLayout.setHorizontalGroup(
             jd_SimulacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jd_SimulacionLayout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jd_SimulacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jd_SimulacionLayout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(bt_Simular)
                     .addComponent(jbr_Progreso, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jd_SimulacionLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jd_SimulacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jd_SimulacionLayout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addGap(110, 110, 110)
-                                .addComponent(cb_Hacks, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(bt_Simular))))
-                .addContainerGap(93, Short.MAX_VALUE))
+                        .addComponent(jLabel4)
+                        .addGap(18, 18, 18)
+                        .addComponent(tf_Caracteres_Prueba, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(226, Short.MAX_VALUE))
         );
         jd_SimulacionLayout.setVerticalGroup(
             jd_SimulacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jd_SimulacionLayout.createSequentialGroup()
                 .addContainerGap()
+                .addGroup(jd_SimulacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jd_SimulacionLayout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addGap(127, 127, 127))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 84, Short.MAX_VALUE)
                 .addGroup(jd_SimulacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(cb_Hacks, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(46, 46, 46)
-                .addComponent(jbr_Progreso, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(57, 57, 57)
+                    .addComponent(jLabel4)
+                    .addComponent(tf_Caracteres_Prueba, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(30, 30, 30)
                 .addComponent(bt_Simular)
-                .addContainerGap(99, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jbr_Progreso, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(35, 35, 35))
         );
 
         ta_Mostar_HR.setEditable(false);
@@ -304,19 +322,29 @@ public class Principal extends javax.swing.JFrame {
         jl_Menu.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jl_Menu.setText("Menu");
 
+        bt_Administar.setText("Administrar");
+        bt_Administar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bt_AdministarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(42, 42, 42)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jl_Menu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(bt_C_HS, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(45, 45, 45)
-                .addComponent(bt_C_HR)
-                .addGap(18, 18, 18)
-                .addComponent(bt_Simulacion)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(bt_Administar)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jl_Menu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(bt_C_HS, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(45, 45, 45)
+                        .addComponent(bt_C_HR)
+                        .addGap(18, 18, 18)
+                        .addComponent(bt_Simulacion)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -324,12 +352,14 @@ public class Principal extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(45, 45, 45)
                 .addComponent(jl_Menu, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(bt_C_HS)
                     .addComponent(bt_C_HR)
                     .addComponent(bt_Simulacion))
-                .addGap(87, 87, 87))
+                .addGap(35, 35, 35)
+                .addComponent(bt_Administar)
+                .addGap(27, 27, 27))
         );
 
         pack();
@@ -337,6 +367,10 @@ public class Principal extends javax.swing.JFrame {
 
     private void bt_SimulacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_SimulacionActionPerformed
         // TODO add your handling code here:
+        jd_Simulacion.setModal(true);
+        jd_Simulacion.pack();
+        jd_Simulacion.setLocationRelativeTo(this);
+        jd_Simulacion.setVisible(true);
     }//GEN-LAST:event_bt_SimulacionActionPerformed
 
     private void bt_C_HSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_C_HSActionPerformed
@@ -359,13 +393,9 @@ public class Principal extends javax.swing.JFrame {
         // TODO add your handling code here:
         h = new Hackeo(Integer.parseInt(tf_C_HR.getText()), riesgo, "Regular");
         hacks.add(h);
+        DefaultListModel modelo = (DefaultListModel) JL_Hacks.getModel();
         modelo.addElement(h);
-        cb_Hacks.setModel(modelo);
-        adminHackeo ap = new adminHackeo("./Hackeo Regular");
-        ap.cargarArchivo();
-        ap.setHackeo(h);
-        ap.escribirArchivo();
-        JOptionPane.showMessageDialog(this, "Alumno guardado exitosamente");
+        JL_Hacks.setModel(modelo);
         tf_C_HR.setText("");
         cb_NR_HR.setSelectedIndex(0);
     }//GEN-LAST:event_bt_CrearActionPerformed
@@ -398,8 +428,9 @@ public class Principal extends javax.swing.JFrame {
         // TODO add your handling code here:
         h = new Hackeo(Integer.parseInt(tf_Codigo1.getText()), riesgo2, "Super");
         hacks.add(h);
+        DefaultListModel modelo = (DefaultListModel) JL_Hacks.getModel();
         modelo.addElement(h);
-        cb_Hacks.setModel(modelo);
+        JL_Hacks.setModel(modelo);
         tf_C_HR.setText("");
         cb_NR_HR.setSelectedIndex(0);
     }//GEN-LAST:event_bt_Crear1ActionPerformed
@@ -522,6 +553,37 @@ public class Principal extends javax.swing.JFrame {
         jd_Mostrar_HS.setVisible(true);
     }//GEN-LAST:event_bt_Cargar1ActionPerformed
 
+    private void bt_AdministarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_AdministarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_bt_AdministarActionPerformed
+
+    private void bt_SimularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bt_SimularActionPerformed
+        // TODO add your handling code here:
+        int pos = JL_Hacks.getSelectedIndex();
+        String temp = tf_Caracteres_Prueba.getText();
+        int car = temp.length();
+        DefaultListModel modelo = (DefaultListModel) JL_Hacks.getModel();
+        Hackeo h1 = hacks.get(pos);
+        int r1 = 0;
+        if (hacks.get(pos) instanceof HackeoR) {
+            r1 = 1 + r.nextInt(10);
+        }
+        if (hacks.get(pos) instanceof HackeoS) {
+            r1 = 6 + r.nextInt(10);
+        }
+        int vi = h1.getN_riesgo();
+        int dur = 0;
+        if (h1 instanceof HackeoR) {
+            dur = 2;
+        }
+        if (h1 instanceof HackeoS) {
+            dur = 1;
+        }
+        jbr_Progreso.setMaximum(dur * car);
+        adminbarra ab = new adminbarra(jbr_Progreso, dur, car);
+        ab.start();
+    }//GEN-LAST:event_bt_SimularActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -558,6 +620,8 @@ public class Principal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JList<String> JL_Hacks;
+    private javax.swing.JButton bt_Administar;
     private javax.swing.JButton bt_C_HR;
     private javax.swing.JButton bt_C_HS;
     private javax.swing.JButton bt_Cargar1;
@@ -568,14 +632,15 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JButton bt_Guardar1;
     private javax.swing.JButton bt_Simulacion;
     private javax.swing.JButton bt_Simular;
-    private javax.swing.JComboBox<String> cb_Hacks;
     private javax.swing.JComboBox<String> cb_NR_HR;
     private javax.swing.JComboBox<String> cb_NR_HS;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JProgressBar jbr_Progreso;
     private javax.swing.JDialog jd_Crear_HR;
     private javax.swing.JDialog jd_Crear_HS;
@@ -588,11 +653,12 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JTextArea ta_Cargar_HS;
     private javax.swing.JTextArea ta_Mostar_HR;
     private javax.swing.JTextField tf_C_HR;
+    private javax.swing.JTextField tf_Caracteres_Prueba;
     private javax.swing.JTextField tf_Codigo1;
     // End of variables declaration//GEN-END:variables
     private Hackeo h;
     private ArrayList<Hackeo> hacks = new ArrayList();
     private int riesgo;
     private int riesgo2;
-    DefaultComboBoxModel modelo = (DefaultComboBoxModel) cb_Hacks.getModel();
+    adminbarra ab;
 }
